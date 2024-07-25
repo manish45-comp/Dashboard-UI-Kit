@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  font-family: "Inter";
+}
+
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hideScrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+}
+
+.fadeGradient {
+  background: linear-gradient(to top, rgb(0, 0, 0) 90%, rgba(0, 0, 0, 0));
+}
