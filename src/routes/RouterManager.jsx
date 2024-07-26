@@ -18,6 +18,9 @@ import Teams from "../pages/dashboard/tabs/Teams";
 import Tasks from "../pages/dashboard/tabs/Tasks";
 import Settings from "../pages/dashboard/tabs/Settings";
 import Blank from "../pages/dashboard/tabs/Blank";
+import Profile from "../pages/dashboard/tabs/Profile";
+import Security from "../pages/dashboard/tabs/Security";
+import Billing from "../pages/dashboard/tabs/Billing";
 
 const RouterManager = () => {
   return (
@@ -38,7 +41,11 @@ const RouterManager = () => {
         <Route path="customers" element={<Customers />} />
         <Route path="teams" element={<Teams />} />
         <Route path="tasks" element={<Tasks />} />
-        <Route path="settings" element={<Settings />} />
+        <Route path="settings" element={<Settings />}>
+          <Route index element={<Profile />} />
+          <Route path="security" element={<Security />} />
+          <Route path="billing" element={<Billing />} />
+        </Route>
         <Route path="blank" element={<Blank />} />
       </Route>
     </Routes>

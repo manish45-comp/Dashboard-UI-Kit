@@ -6,7 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar, Box } from "@mui/joy";
 import { NotificationsNoneOutlined } from "@mui/icons-material";
 
-export default function MenuAppBar() {
+export default function MenuAppBar({ toggleDrawer }) {
   return (
     <Box
       sx={{
@@ -21,6 +21,7 @@ export default function MenuAppBar() {
       <AppBar position="static" color="inherit">
         <Toolbar>
           <IconButton
+            onClick={toggleDrawer(true)}
             size="large"
             edge="start"
             color="inherit"
@@ -49,7 +50,7 @@ export default function MenuAppBar() {
               aria-haspopup="true"
               color="inherit"
             >
-              <Avatar src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSsGcqP-UjvcE68S9_C_v0inqPttIEu5nQjCiZzomPRPhA3jNlR" />
+              <Avatar src="https://github.com/manish45-comp/GitHub-Drive/blob/main/Gallery/Manish.png?raw=true" />
             </IconButton>
           </div>
         </Toolbar>

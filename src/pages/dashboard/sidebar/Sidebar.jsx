@@ -11,6 +11,13 @@ import {
   DarkMode,
   Settings,
   Bolt,
+  ShoppingCart,
+  Receipt,
+  Inventory,
+  People,
+  Business,
+  Assignment,
+  FilePresent,
 } from "@mui/icons-material";
 import {
   Avatar,
@@ -52,7 +59,7 @@ const generalItems = [
   {
     path: "",
     label: "Orders",
-    icon: SpaceDashboard,
+    icon: ShoppingCart,
     subItems: [
       { path: "/dashboard/orders", label: "List Orders" },
       { path: "/dashboard/create", label: "Create Order" },
@@ -62,22 +69,23 @@ const generalItems = [
   {
     path: "",
     label: "Invoices",
-    icon: Thermostat,
+    icon: Receipt,
     subItems: [
       { path: "/dashboard/invoices", label: "List Invoices" },
       { path: "/invoices/create", label: "Create Invoice" },
       { path: "/invoices/details", label: "Invoice Details" },
     ],
   },
-  { path: "/dashboard/products", label: "Products", icon: LocalShipping },
-  { path: "/dashboard/customers", label: "Customers", icon: PieChart },
-  { path: "/dashboard/teams", label: "Teams", icon: CurrencyBitcoin },
-  { path: "/dashboard/tasks", label: "Tasks", icon: CurrencyBitcoin },
-  { path: "/dashboard/settings", label: "Settings", icon: CurrencyBitcoin },
-  { path: "/dashboard/blank", label: "Blank", icon: CurrencyBitcoin },
+  { path: "/dashboard/products", label: "Products", icon: Inventory },
+  { path: "/dashboard/customers", label: "Customers", icon: People },
+  { path: "/dashboard/teams", label: "Teams", icon: Business },
+  { path: "/dashboard/tasks", label: "Tasks", icon: Assignment },
+  { path: "/dashboard/settings", label: "Settings", icon: Settings },
+  { path: "/dashboard/blank", label: "Blank", icon: FilePresent },
 ];
 
-const Sidebar = () => {
+// eslint-disable-next-line react/prop-types
+const Sidebar = ({ toggleDrawer }) => {
   const checkActive = (path) => {
     return window.location.pathname === path;
   };
@@ -91,8 +99,11 @@ const Sidebar = () => {
     }));
   };
   return (
-    <Box className="h-full relative overflow-auto hideScrollbar">
-      <div className="logo flex justify-start items-center">
+    <Box
+      className="bg-black h-full relative overflow-auto hideScrollbar"
+      onClick={toggleDrawer(false)}
+    >
+      <div className="logo flex justify-between items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="176"
@@ -284,7 +295,7 @@ const Sidebar = () => {
                 horizontal: "right",
               }}
             >
-              <Avatar src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSsGcqP-UjvcE68S9_C_v0inqPttIEu5nQjCiZzomPRPhA3jNlR" />
+              <Avatar src="https://github.com/manish45-comp/GitHub-Drive/blob/main/Gallery/Manish.png?raw=true" />
             </Badge>
             <div className="flex-1">
               <Typography
@@ -317,7 +328,12 @@ const Sidebar = () => {
                 }}
               />
             </div>
-            <div className="border border-zinc-500 rounded-md p-1 grid place-content-center hover:bg-zinc-800 cursor-pointer">
+            <div
+              onClick={() => {
+                navigate("/dashboard/settings");
+              }}
+              className="border border-zinc-500 rounded-md p-1 grid place-content-center hover:bg-zinc-800 cursor-pointer"
+            >
               <Settings
                 sx={{
                   color: "#f7f7f7",

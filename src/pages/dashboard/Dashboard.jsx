@@ -1,19 +1,40 @@
-import { Box } from "@mui/joy";
+import { Box, Drawer, ModalClose } from "@mui/joy";
 import Sidebar from "./sidebar/Sidebar";
 import MenuAppBar from "./appbar/MenuAppBar";
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
 
 const Dashboard = () => {
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = (inOpen) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setOpen(inOpen);
+  };
+
   return (
     <Box
       sx={{ padding: { xs: 0, lg: 0 } }}
       className="w-screen h-screen bg-black flex overflow-hidden"
     >
+      <Drawer variant="plain" open={open} onClose={toggleDrawer(false)}>
+        <Box className="overflow-hidden bg-black" sx={{ padding: 3 }}>
+          <Sidebar toggleDrawer={toggleDrawer} />
+          <ModalClose />
+        </Box>
+      </Drawer>
+
       <Box
         sx={{ padding: 3, display: { xs: "none", lg: "block" }, width: 320 }}
         className="fixed top-0 bg-black h-full"
       >
-        <Sidebar />
+        <Sidebar toggleDrawer={() => {}} />
       </Box>
       <Box
         sx={{
@@ -27,10 +48,10 @@ const Dashboard = () => {
         className="bg-black"
       >
         <Box
-          sx={{ paddingTop: { xs: 0, lg: 3 } }}
+          sx={{ zIndex: 99, paddingTop: { xs: 0, lg: 3 } }}
           className="sticky top-0 bg-black"
         >
-          <MenuAppBar />
+          <MenuAppBar toggleDrawer={toggleDrawer} />
         </Box>
         <Outlet />
       </Box>
