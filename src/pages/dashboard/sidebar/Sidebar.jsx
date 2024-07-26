@@ -26,27 +26,70 @@ import {
   Typography,
 } from "@mui/joy";
 import { Collapse, styled } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  padding: "8px 12px",
+const StyledListItemButton = styled(ListItemButton)(({ theme, active }) => ({
+  padding: "6px 12px",
   borderRadius: "8px",
+  "&.MuiListItemButton-root": {
+    backgroundColor: active ? theme.palette.primary.main : "",
+  },
   "&.MuiListItemButton-root:hover": {
     backgroundColor: theme.palette.primary.main,
   },
 }));
 
+const dashboardItems = [
+  { path: "/dashboard", label: "Overview", icon: SpaceDashboard },
+  { path: "/dashboard/smart-home", label: "Smart Home", icon: Thermostat },
+  { path: "/dashboard/logistics", label: "Logistics", icon: LocalShipping },
+  { path: "/dashboard/analytics", label: "Analytics", icon: PieChart },
+  { path: "/dashboard/crypto", label: "Crypto", icon: CurrencyBitcoin },
+];
+
+const generalItems = [
+  {
+    path: "",
+    label: "Orders",
+    icon: SpaceDashboard,
+    subItems: [
+      { path: "/dashboard/orders", label: "List Orders" },
+      { path: "/dashboard/create", label: "Create Order" },
+      { path: "/dashboard/details", label: "Order Details" },
+    ],
+  },
+  {
+    path: "",
+    label: "Invoices",
+    icon: Thermostat,
+    subItems: [
+      { path: "/dashboard/invoices", label: "List Invoices" },
+      { path: "/invoices/create", label: "Create Invoice" },
+      { path: "/invoices/details", label: "Invoice Details" },
+    ],
+  },
+  { path: "/dashboard/products", label: "Products", icon: LocalShipping },
+  { path: "/dashboard/customers", label: "Customers", icon: PieChart },
+  { path: "/dashboard/teams", label: "Teams", icon: CurrencyBitcoin },
+  { path: "/dashboard/tasks", label: "Tasks", icon: CurrencyBitcoin },
+  { path: "/dashboard/settings", label: "Settings", icon: CurrencyBitcoin },
+  { path: "/dashboard/blank", label: "Blank", icon: CurrencyBitcoin },
+];
+
 const Sidebar = () => {
-  const [openOrders, setOpenOrders] = useState(false);
-  const [openInvoices, setOpenInvoices] = useState(false);
-
-  const handleOpen = () => {
-    setOpenOrders(!openOrders);
-  };
-  const handleOpenInvoices = () => {
-    setOpenInvoices(!openInvoices);
+  const checkActive = (path) => {
+    return window.location.pathname === path;
   };
 
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const handleToggle = (label) => {
+    setOpen((prevOpen) => ({
+      ...prevOpen,
+      [label]: !prevOpen[label],
+    }));
+  };
   return (
     <Box className="h-full relative overflow-auto hideScrollbar">
       <div className="logo flex justify-start items-center">
@@ -93,6 +136,7 @@ const Sidebar = () => {
           </Typography>
         </div>
       </Box>
+      {/* dashboard tabs */}
       <Box className="mt-10">
         <Typography
           sx={{
@@ -104,114 +148,37 @@ const Sidebar = () => {
         </Typography>
         <div className="mt-5">
           <List className="grid gap-3">
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <SpaceDashboard
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Overview
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <Thermostat
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Smart Home
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <LocalShipping
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Logistics
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <PieChart
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Analytics
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <CurrencyBitcoin
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Crypto
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
+            {dashboardItems.map((item, i) => (
+              <ListItem key={i}>
+                <StyledListItemButton
+                  active={checkActive(item.path) ? 1 : 0}
+                  onClick={() => navigate(item.path)}
+                >
+                  <ListItemDecorator>
+                    <item.icon
+                      sx={{
+                        color: "#f7f7f7",
+                      }}
+                    />
+                  </ListItemDecorator>
+                  <ListItemContent>
+                    <Typography
+                      sx={{
+                        color: "#f7f7f7",
+                      }}
+                      level="title-md"
+                    >
+                      {item.label}
+                    </Typography>
+                  </ListItemContent>
+                </StyledListItemButton>
+              </ListItem>
+            ))}
           </List>
         </div>
       </Box>
+
+      {/* general tabs */}
       <Box className="mt-10">
         <Typography
           sx={{
@@ -223,271 +190,72 @@ const Sidebar = () => {
         </Typography>
         <div className="mt-5">
           <List className="grid gap-3">
-            <ListItem>
-              <StyledListItemButton onClick={handleOpen}>
-                <ListItemDecorator>
-                  <SpaceDashboard
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
+            {generalItems.map((item, i) => (
+              <React.Fragment key={i}>
+                <ListItem>
+                  <StyledListItemButton
+                    onClick={
+                      item.subItems
+                        ? () => handleToggle(item.label)
+                        : () => navigate(item.path)
+                    }
                   >
-                    Orders
-                  </Typography>
-                </ListItemContent>
-                {openOrders ? <ExpandLess /> : <ExpandMore />}
-              </StyledListItemButton>
-            </ListItem>
-            <Collapse
-              sx={{ marginInline: 2, borderLeft: "1px solid #f7f7f7" }}
-              in={openOrders}
-              timeout="auto"
-              unmountOnExit
-            >
-              <List component="div">
-                <StyledListItemButton>
-                  <ListItemContent sx={{}}>
-                    <Typography
-                      sx={{
-                        color: "#f7f7f7",
-                      }}
-                      level="title-md"
-                    >
-                      List Orders
-                    </Typography>
-                  </ListItemContent>
-                </StyledListItemButton>
-                <StyledListItemButton>
-                  <ListItemContent sx={{}}>
-                    <Typography
-                      sx={{
-                        color: "#f7f7f7",
-                      }}
-                      level="title-md"
-                    >
-                      Create Order
-                    </Typography>
-                  </ListItemContent>
-                </StyledListItemButton>
-                <StyledListItemButton>
-                  <ListItemContent sx={{}}>
-                    <Typography
-                      sx={{
-                        color: "#f7f7f7",
-                      }}
-                      level="title-md"
-                    >
-                      Order Details
-                    </Typography>
-                  </ListItemContent>
-                </StyledListItemButton>
-              </List>
-            </Collapse>
-            <ListItem>
-              <StyledListItemButton onClick={handleOpenInvoices}>
-                <ListItemDecorator>
-                  <Thermostat
+                    <ListItemDecorator>
+                      <item.icon sx={{ color: "#f7f7f7" }} />
+                    </ListItemDecorator>
+                    <ListItemContent>
+                      <Typography sx={{ color: "#f7f7f7" }} level="title-md">
+                        {item.label}
+                      </Typography>
+                    </ListItemContent>
+                    {item.subItems ? (
+                      open[item.label] ? (
+                        <ExpandLess />
+                      ) : (
+                        <ExpandMore />
+                      )
+                    ) : null}
+                  </StyledListItemButton>
+                </ListItem>
+                {item.subItems && (
+                  <Collapse
                     sx={{
-                      color: "#f7f7f7",
+                      marginInline: 2,
+                      paddingLeft: 2,
+                      borderLeft: "0.5px solid",
+                      borderColor: "##CDD7E1",
                     }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
+                    in={open[item.label]}
+                    timeout="auto"
+                    unmountOnExit
                   >
-                    Invoices
-                  </Typography>
-                </ListItemContent>
-                {openInvoices ? <ExpandLess /> : <ExpandMore />}
-              </StyledListItemButton>
-            </ListItem>
-            <Collapse
-              sx={{ marginInline: 2, borderLeft: "1px solid #f7f7f7" }}
-              in={openInvoices}
-              timeout="auto"
-              unmountOnExit
-            >
-              <List component="div">
-                <StyledListItemButton>
-                  <ListItemContent sx={{}}>
-                    <Typography
-                      sx={{
-                        color: "#f7f7f7",
-                      }}
-                      level="title-md"
-                    >
-                      List Orders
-                    </Typography>
-                  </ListItemContent>
-                </StyledListItemButton>
-                <StyledListItemButton>
-                  <ListItemContent sx={{}}>
-                    <Typography
-                      sx={{
-                        color: "#f7f7f7",
-                      }}
-                      level="title-md"
-                    >
-                      Create Order
-                    </Typography>
-                  </ListItemContent>
-                </StyledListItemButton>
-                <StyledListItemButton>
-                  <ListItemContent sx={{}}>
-                    <Typography
-                      sx={{
-                        color: "#f7f7f7",
-                      }}
-                      level="title-md"
-                    >
-                      Order Details
-                    </Typography>
-                  </ListItemContent>
-                </StyledListItemButton>
-              </List>
-            </Collapse>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <LocalShipping
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Products
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <PieChart
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Customers
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <CurrencyBitcoin
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Teams
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <CurrencyBitcoin
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Tasks
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <CurrencyBitcoin
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Settings
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
-            <ListItem>
-              <StyledListItemButton>
-                <ListItemDecorator>
-                  <CurrencyBitcoin
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                  />
-                </ListItemDecorator>
-                <ListItemContent>
-                  <Typography
-                    sx={{
-                      color: "#f7f7f7",
-                    }}
-                    level="title-md"
-                  >
-                    Blank
-                  </Typography>
-                </ListItemContent>
-              </StyledListItemButton>
-            </ListItem>
+                    <List component="div">
+                      {item.subItems.map((subItem) => (
+                        <ListItem key={subItem.path}>
+                          <StyledListItemButton
+                            active={checkActive(subItem.path) ? 1 : 0}
+                            onClick={() => navigate(subItem.path)}
+                          >
+                            <ListItemContent>
+                              <Typography
+                                sx={{ color: "#f7f7f7" }}
+                                level="title-md"
+                              >
+                                {subItem.label}
+                              </Typography>
+                            </ListItemContent>
+                          </StyledListItemButton>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Collapse>
+                )}
+              </React.Fragment>
+            ))}
           </List>
         </div>
       </Box>
-
-      <Box className="sticky bottom-0 w-full fadeGradient p-2 grid gap-5">
+      <Box className="sticky bottom-0 w-full fadeGradient p-2 pt-10 grid gap-5">
         <Box className="bg-zinc-900 p-1 rounded-md flex gap-1">
           <Button
             startDecorator={<LightMode />}
@@ -501,7 +269,7 @@ const Sidebar = () => {
             startDecorator={<DarkMode />}
             className="flex-1"
             variant="solid"
-            color=""
+            color="neutral"
           >
             Dark
           </Button>

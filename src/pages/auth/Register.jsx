@@ -10,7 +10,7 @@ import {
 } from "@mui/joy";
 import { Facebook, RemoveRedEyeOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import GoogleIco from "../components/icons/GoogleIco";
+import GoogleIco from "../../components/icons/GoogleIco";
 import MUILink from "@mui/joy/Link";
 
 const Register = () => {

@@ -3,6 +3,7 @@
 @tailwind utilities;
 * {
   font-family: "Inter";
+  scroll-behavior: smooth;
 }
 
 .hideScrollbar::-webkit-scrollbar {

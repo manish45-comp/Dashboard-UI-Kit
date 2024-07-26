@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, Divider, Input, Typography } from "@mui/joy";
 import MUILink from "@mui/joy/Link";
 import { Facebook } from "@mui/icons-material";
-import GoogleIco from "../components/icons/GoogleIco";
+import GoogleIco from "../../components/icons/GoogleIco";
 import { Link } from "react-router-dom";
 
 const Login = () => {
