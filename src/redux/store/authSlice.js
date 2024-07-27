@@ -13,7 +13,7 @@ export const loginUser = createAsyncThunk(
   "api/login",
   async (credentials, { rejectWithValue }) => {
     try {
-      const { username, password, expiresInMins = 1 } = credentials;
+      const { username, password, expiresInMins = 60 } = credentials;
 
       const response = await axios.post(
         "https://dummyjson.com/auth/login",
