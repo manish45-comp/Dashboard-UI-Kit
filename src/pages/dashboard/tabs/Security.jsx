@@ -9,8 +9,11 @@ import {
   Divider,
   Chip,
 } from "@mui/joy";
+import { useSelector } from "react-redux";
 
 const Security = () => {
+  const user = useSelector((state) => state.user.user);
+
   return (
     <>
       <Box sx={{ marginTop: 3 }}>
@@ -54,12 +57,7 @@ const Security = () => {
           <div className="flex items-start justify-start gap-5 p-2 py-3">
             <Computer />
             <div>
-              <Typography level="title-md">
-                Chrome,Windows OS 116.0.5845.50
-              </Typography>
-              <Typography level="body-md">
-                India, Pune • 26 Jul at 7:31 AM
-              </Typography>
+              <Typography level="title-sm">{user?.userAgent}</Typography>
               <Chip
                 size="sm"
                 startDecorator={

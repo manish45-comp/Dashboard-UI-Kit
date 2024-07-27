@@ -34,7 +34,9 @@ import {
 } from "@mui/joy";
 import { Collapse, styled } from "@mui/material";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Logo from "../../../components/icons/Logo";
+import { useSelector } from "react-redux";
 
 const StyledListItemButton = styled(ListItemButton)(({ theme, active }) => ({
   padding: "6px 12px",
@@ -86,18 +88,23 @@ const generalItems = [
 
 // eslint-disable-next-line react/prop-types
 const Sidebar = ({ toggleDrawer }) => {
-  const checkActive = (path) => {
-    return window.location.pathname === path;
-  };
-
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const user = useSelector((state) => state.user.user);
+
+  const checkActive = (path) => {
+    return location.pathname === path;
+  };
+
   const handleToggle = (label) => {
     setOpen((prevOpen) => ({
       ...prevOpen,
       [label]: !prevOpen[label],
     }));
   };
+
   return (
     <Box
       className="bg-black h-full relative overflow-auto hideScrollbar"
@@ -124,6 +131,7 @@ const Sidebar = ({ toggleDrawer }) => {
           ></path>
         </svg>
       </div>
+
       <Box className="mt-5 bg-zinc-900 p-2 rounded-md flex items-center gap-3">
         <div className="h-10 w-10 bg-black place-content-center place-items-center text-center rounded-md">
           <Workspaces sx={{ color: "#fff" }} />
@@ -266,8 +274,9 @@ const Sidebar = ({ toggleDrawer }) => {
           </List>
         </div>
       </Box>
+
       <Box className="sticky bottom-0 w-full fadeGradient p-2 pt-10 grid gap-5">
-        <Box className="bg-zinc-900 p-1 rounded-md flex gap-1">
+        {/* <Box className="bg-zinc-900 p-1 rounded-md flex gap-1">
           <Button
             startDecorator={<LightMode />}
             className="flex-1"
@@ -284,7 +293,7 @@ const Sidebar = ({ toggleDrawer }) => {
           >
             Dark
           </Button>
-        </Box>
+        </Box> */}
         <Box className="bg-zinc-900 p-3 rounded-md">
           <div className="flex items-start justify-start gap-3">
             <Badge
@@ -295,16 +304,16 @@ const Sidebar = ({ toggleDrawer }) => {
                 horizontal: "right",
               }}
             >
-              <Avatar src="https://github.com/manish45-comp/GitHub-Drive/blob/main/Gallery/Manish.png?raw=true" />
+              <Avatar src={user?.image} />
             </Badge>
             <div className="flex-1">
               <Typography
                 sx={{
                   color: (theme) => theme.palette.neutral[50],
                 }}
-                level="title-md"
+                level="title-sm"
               >
-                Manish Bagal
+                {user?.firstName + " " + user?.lastName}
               </Typography>
               <Typography
                 sx={{
@@ -312,11 +321,16 @@ const Sidebar = ({ toggleDrawer }) => {
                 }}
                 level="body-sm"
               >
-                rene@devias.io
+                {user?.username}
               </Typography>
             </div>
-            <Chip size="sm" variant="soft" color="success">
-              Admin
+            <Chip
+              sx={{ textTransform: "capitalize" }}
+              size="sm"
+              variant="soft"
+              color="success"
+            >
+              {user?.role}
             </Chip>
           </div>
           <div className="mt-3 flex gap-2">

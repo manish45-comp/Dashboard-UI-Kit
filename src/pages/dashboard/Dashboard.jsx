@@ -2,10 +2,16 @@ import { Box, Drawer, ModalClose } from "@mui/joy";
 import Sidebar from "./sidebar/Sidebar";
 import MenuAppBar from "./appbar/MenuAppBar";
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../redux/store/userSlice";
+
+import toast, { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const toggleDrawer = (inOpen) => (event) => {
     if (
@@ -14,9 +20,17 @@ const Dashboard = () => {
     ) {
       return;
     }
-
     setOpen(inOpen);
   };
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+  useEffect(() => {
+    if (isAuthenticated) {
+      toast.success("Login successfully", { duration: 2000 });
+    }
+  }, [isAuthenticated]);
 
   return (
     <Box
@@ -55,6 +69,8 @@ const Dashboard = () => {
         </Box>
         <Outlet />
       </Box>
+
+      <Toaster position="bottom-right" reverseOrder={false} />
     </Box>
   );
 };

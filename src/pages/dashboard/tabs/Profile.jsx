@@ -12,8 +12,11 @@ import {
   Textarea,
   Typography,
 } from "@mui/joy";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
+  const user = useSelector((state) => state.user.user);
+
   return (
     <>
       <Box className="flex items-center justify-start gap-3 mt-5">
@@ -27,7 +30,7 @@ const Profile = () => {
           }}
           className="profileUpload"
         >
-          <img src="https://github.com/manish45-comp/GitHub-Drive/blob/main/Gallery/Manish.png?raw=true" />
+          <img src={user?.image} />
           <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center uploadIcon">
             <CloudUpload sx={{ color: "#f7f7f7" }} />
           </div>
@@ -56,15 +59,15 @@ const Profile = () => {
         >
           <FormControl>
             <FormLabel>First Name</FormLabel>
-            <Input placeholder="First Name" value="Manish"></Input>
+            <Input placeholder="First Name" value={user?.firstName}></Input>
           </FormControl>
           <FormControl>
             <FormLabel>Last Name</FormLabel>
-            <Input placeholder="Last Name" value="Bagal"></Input>
+            <Input placeholder="Last Name" value={user?.lastName}></Input>
           </FormControl>
           <FormControl className="flex-1">
             <FormLabel>Email Address</FormLabel>
-            <Input placeholder="Last Name" value="rene@devias.io"></Input>
+            <Input placeholder="Last Name" value={user?.email}></Input>
           </FormControl>
           <FormControl sx={{ gridColumnStart: 1 }}>
             <FormLabel>Bio</FormLabel>
@@ -79,7 +82,7 @@ const Profile = () => {
             <Input
               startDecorator={<Chip>www.</Chip>}
               placeholder="Last Name"
-              value="devias.io"
+              value={user?.email}
             ></Input>
           </FormControl>
         </Box>
@@ -101,31 +104,34 @@ const Profile = () => {
         >
           <FormControl>
             <FormLabel>Country</FormLabel>
-            <Select placeholder="Country" defaultValue="India">
+            <Select placeholder="Country" defaultValue={user?.address?.country}>
+              <Option value="United States">United States</Option>
               <Option value="India">India</Option>
-              <Option value="United State">United State</Option>
               <Option value="Canada">Canada</Option>
               <Option value="United Kingdom">United Kingdom</Option>
             </Select>
           </FormControl>
           <FormControl>
             <FormLabel>State</FormLabel>
-            <Input placeholder="State" value="Bagal"></Input>
+            <Input placeholder="State" value={user?.address?.state}></Input>
           </FormControl>
           <FormControl className="flex-1">
             <FormLabel>City</FormLabel>
-            <Input placeholder="City" value="Pune"></Input>
+            <Input placeholder="City" value={user?.address?.city}></Input>
           </FormControl>
           <FormControl>
             <FormLabel>Zip Code</FormLabel>
-            <Input placeholder="Zip Code" value="412215"></Input>
+            <Input
+              placeholder="Zip Code"
+              value={user?.address?.postalCode}
+            ></Input>
           </FormControl>
           <FormControl>
             <FormLabel>Address</FormLabel>
             <Textarea
               minRows={2}
               placeholder="Address"
-              value="At post Varvand, Daund"
+              value={user?.address?.address}
             ></Textarea>
           </FormControl>
         </Box>

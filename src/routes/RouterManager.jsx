@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Dashboard from "../pages/dashboard/Dashboard";
 import Login from "../pages/auth/Login";
@@ -21,15 +21,51 @@ import Blank from "../pages/dashboard/tabs/Blank";
 import Profile from "../pages/dashboard/tabs/Profile";
 import Security from "../pages/dashboard/tabs/Security";
 import Billing from "../pages/dashboard/tabs/Billing";
+import { useSelector } from "react-redux";
 
 const RouterManager = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   return (
     <Routes>
-      <Route path="/" element={<Login />}></Route>
-      <Route path="/register" element={<Register />}></Route>
-      <Route path="/forgot-password" element={<ForgotPassword />}></Route>
-      <Route path="/reset-password" element={<ResetPassword />}></Route>
-      <Route path="/dashboard" element={<Dashboard />}>
+      <Route
+        path="/"
+        element={
+          isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />
+        }
+      ></Route>
+      <Route
+        element={
+          isAuthenticated ? <Navigate to="/dashboard" replace /> : <Register />
+        }
+        path="/register"
+      />
+      <Route
+        path="/forgot-password"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <ForgotPassword />
+          )
+        }
+      ></Route>
+      <Route
+        path="/reset-password"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <ResetPassword />
+          )
+        }
+      ></Route>
+
+      {/* this below all routes should be protected */}
+      <Route
+        path="/dashboard"
+        element={isAuthenticated ? <Dashboard /> : <Navigate to="/" replace />}
+      >
         <Route index element={<Overview />} />
         <Route path="smart-home" element={<SmartHome />} />
         <Route path="logistics" element={<Logistics />} />

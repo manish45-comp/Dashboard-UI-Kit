@@ -10,8 +10,11 @@ import {
   Table,
   Typography,
 } from "@mui/joy";
+import { useSelector } from "react-redux";
 
 const Billing = () => {
+  const user = useSelector((state) => state.user.user);
+
   return (
     <>
       <Box sx={{ marginTop: 3 }}>
@@ -127,27 +130,15 @@ const Billing = () => {
               <img src="https://static-00.iconduck.com/assets.00/visa-icon-512x157-gku8mwfq.png" />
             </div>
             <div className="flex flex-col gap-2 flex-1">
-              <Typography level="title-md">•••• •••• •••• 5783</Typography>
-              <Typography level="body-sm">Expiry 12/2026</Typography>
+              <Typography level="title-md">
+                •••• •••• •••• {user?.bank?.cardNumber.slice(-4)}
+              </Typography>
+              <Typography level="body-sm">
+                Expiry {user?.bank?.cardExpire}
+              </Typography>
               <Chip variant="soft" color="warning">
                 Primary
               </Chip>
-            </div>
-            <div className="flex items-end">
-              <IconButton>
-                <Draw />
-              </IconButton>
-            </div>
-          </CardContent>
-        </Card>
-        <Card sx={{ minHeight: 120 }}>
-          <CardContent orientation="horizontal">
-            <div className="h-9 overflow-hidden w-16 border border-slate-300 rounded-md flex items-center justify-center p-1">
-              <img src="https://static-00.iconduck.com/assets.00/visa-icon-512x157-gku8mwfq.png" />
-            </div>
-            <div className="flex flex-col gap-2 flex-1">
-              <Typography level="title-md">•••• •••• •••• 3488</Typography>
-              <Typography level="body-sm">Expiry 06/2036</Typography>
             </div>
             <div className="flex items-end">
               <IconButton>

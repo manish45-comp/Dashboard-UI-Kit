@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import AppBar from "@mui/material/AppBar";
 
 import Toolbar from "@mui/material/Toolbar";
@@ -5,8 +6,14 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar, Box } from "@mui/joy";
 import { NotificationsNoneOutlined } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../redux/store/authSlice";
+import { removeUser } from "../../../redux/store/userSlice";
 
 export default function MenuAppBar({ toggleDrawer }) {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
+
   return (
     <Box
       sx={{
@@ -44,13 +51,17 @@ export default function MenuAppBar({ toggleDrawer }) {
           </div>
           <div>
             <IconButton
+              onClick={() => {
+                dispatch(logout());
+                dispatch(removeUser());
+              }}
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               color="inherit"
             >
-              <Avatar src="https://github.com/manish45-comp/GitHub-Drive/blob/main/Gallery/Manish.png?raw=true" />
+              <Avatar src={user?.image} />
             </IconButton>
           </div>
         </Toolbar>
