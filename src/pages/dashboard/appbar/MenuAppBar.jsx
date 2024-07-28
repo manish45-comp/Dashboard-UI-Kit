@@ -4,7 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Avatar, Box } from "@mui/joy";
+import { Avatar, Box, Skeleton } from "@mui/joy";
 import { NotificationsNoneOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../redux/store/authSlice";
@@ -13,6 +13,7 @@ import { removeUser } from "../../../redux/store/userSlice";
 export default function MenuAppBar({ toggleDrawer }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+  const isLoading = useSelector((state) => state.user.loading);
 
   return (
     <Box
@@ -61,7 +62,9 @@ export default function MenuAppBar({ toggleDrawer }) {
               aria-haspopup="true"
               color="inherit"
             >
-              <Avatar src={user?.image} />
+              <Avatar sx={{ height: 48, width: 48 }} src={user?.image}>
+                <Skeleton loading={isLoading} />
+              </Avatar>
             </IconButton>
           </div>
         </Toolbar>

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 
 const initialState = {
   user: null,
@@ -11,11 +11,7 @@ export const getUser = createAsyncThunk(
   "user/me",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("https://dummyjson.com/user/me", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axiosInstance.get("user/me");
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -44,6 +40,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getUser.pending, (state) => {
+        state.user = null;
         state.loading = true;
         state.error = null;
       })
@@ -54,6 +51,7 @@ const userSlice = createSlice({
       .addCase(getUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.user = null;
       });
   },
 });

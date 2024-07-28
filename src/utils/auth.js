@@ -17,3 +17,7 @@ export const loadUserCredentials = (setValue) => {
     setValue("password", localStorage.getItem("password"));
   }
 };
+
+export const getRefreshToken = () => localStorage.getItem("refresh");
+export const getAccessToken = () => localStorage.getItem("token");
+export const setAccessToken = (token) => localStorage.setItem("token", token);

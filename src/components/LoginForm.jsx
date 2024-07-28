@@ -5,11 +5,11 @@ import {
   FormControl,
   FormHelperText,
   Input,
-  Link,
   Typography,
 } from "@mui/joy";
 import MUILink from "@mui/material/Link";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 const LoginForm = ({
@@ -32,6 +32,7 @@ const LoginForm = ({
             })}
             placeholder="Email"
             error={errors.username && true}
+            type="text"
           ></Input>
           {errors.username && (
             <FormHelperText className="flex items-center justify-start">
@@ -48,6 +49,7 @@ const LoginForm = ({
             })}
             placeholder="Password"
             error={errors.password && true}
+            type="password"
           ></Input>
           {errors.password && (
             <FormHelperText className="flex items-center justify-start">

@@ -7,8 +7,6 @@ import {
   Workspaces,
   ExpandMore,
   ExpandLess,
-  LightMode,
-  DarkMode,
   Settings,
   Bolt,
   ShoppingCart,
@@ -23,13 +21,13 @@ import {
   Avatar,
   Badge,
   Box,
-  Button,
   Chip,
   List,
   ListItem,
   ListItemButton,
   ListItemContent,
   ListItemDecorator,
+  Skeleton,
   Typography,
 } from "@mui/joy";
 import { Collapse, styled } from "@mui/material";
@@ -93,6 +91,7 @@ const Sidebar = ({ toggleDrawer }) => {
   const location = useLocation();
 
   const user = useSelector((state) => state.user.user);
+  const isLoading = useSelector((state) => state.user.loading);
 
   const checkActive = (path) => {
     return location.pathname === path;
@@ -304,34 +303,57 @@ const Sidebar = ({ toggleDrawer }) => {
                 horizontal: "right",
               }}
             >
-              <Avatar src={user?.image} />
+              <Avatar sx={{ height: 48, width: 48 }} src={user?.image}>
+                <Skeleton loading={isLoading} />
+              </Avatar>
             </Badge>
             <div className="flex-1">
-              <Typography
-                sx={{
-                  color: (theme) => theme.palette.neutral[50],
-                }}
-                level="title-sm"
-              >
-                {user?.firstName + " " + user?.lastName}
-              </Typography>
-              <Typography
-                sx={{
-                  color: (theme) => theme.palette.neutral[500],
-                }}
-                level="body-sm"
-              >
-                {user?.username}
-              </Typography>
+              {isLoading ? (
+                <Skeleton
+                  animation="wave"
+                  variant="text"
+                  level="title-sm"
+                  sx={{ width: 100 }}
+                />
+              ) : (
+                <Typography
+                  sx={{
+                    color: (theme) => theme.palette.neutral[50],
+                  }}
+                  level="title-sm"
+                >
+                  {user?.firstName + " " + user?.lastName}
+                </Typography>
+              )}
+              {isLoading ? (
+                <Skeleton
+                  animation="wave"
+                  variant="text"
+                  level="body-sm"
+                  sx={{ width: 60 }}
+                />
+              ) : (
+                <Typography
+                  sx={{
+                    color: (theme) => theme.palette.neutral[500],
+                  }}
+                  level="body-sm"
+                >
+                  {user?.username}
+                </Typography>
+              )}
             </div>
-            <Chip
-              sx={{ textTransform: "capitalize" }}
-              size="sm"
-              variant="soft"
-              color="success"
-            >
-              {user?.role}
-            </Chip>
+
+            {!isLoading && (
+              <Chip
+                sx={{ textTransform: "capitalize" }}
+                size="sm"
+                variant="soft"
+                color="success"
+              >
+                {user?.role}
+              </Chip>
+            )}
           </div>
           <div className="mt-3 flex gap-2">
             <div className="border flex-1 border-zinc-500 rounded-md p-1 flex items-center justify-center hover:bg-zinc-800 cursor-pointer">
