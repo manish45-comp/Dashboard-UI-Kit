@@ -33,7 +33,6 @@ import {
 import { Collapse, styled } from "@mui/material";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Logo from "../../../components/icons/Logo";
 import { useSelector } from "react-redux";
 
 const StyledListItemButton = styled(ListItemButton)(({ theme, active }) => ({
