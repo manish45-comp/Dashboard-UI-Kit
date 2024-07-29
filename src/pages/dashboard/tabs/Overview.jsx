@@ -40,11 +40,9 @@ const Overview = () => {
 
       <Box
         sx={{ marginTop: 3 }}
-        className={`grid gap-4 md:grid-cols-2 ${
-          isXsScreen ? "grid-cols-1" : "grid-cols-3"
-        }`}
+        className={`grid gap-4 ${isXsScreen ? "grid-cols-1" : "grid-cols-3"}`}
       >
-        <Card sx={{}}>
+        <Card>
           <div className="flex items-center justify-start gap-2">
             <Chip
               sx={{ borderRadius: 5, aspectRatio: 1 }}
@@ -70,7 +68,7 @@ const Overview = () => {
             </div>
           </div>
         </Card>
-        <Card sx={{}}>
+        <Card>
           <div className="flex items-center justify-start gap-2">
             <Chip
               sx={{ borderRadius: 5, aspectRatio: 1 }}
@@ -96,7 +94,7 @@ const Overview = () => {
             </div>
           </div>
         </Card>
-        <Card sx={{}}>
+        <Card>
           <div className="flex items-center justify-start gap-2">
             <Chip
               sx={{ borderRadius: 5, aspectRatio: 1 }}

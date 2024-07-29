@@ -24,7 +24,13 @@ const Analytics = () => {
     >
       <Typography level="h1">Analytics</Typography>
       <Card className="mt-4">
-        <div className="flex item">
+        <div
+          className={`w-full flex  ${
+            isXsScreen
+              ? "gap-5 flex-col items-start justify-start"
+              : "items-center justify-evenly"
+          }`}
+        >
           <div className="grid gap-3">
             <Typography>Page View</Typography>
             <Typography level="h2">1,019,084</Typography>
@@ -76,9 +82,7 @@ const Analytics = () => {
         className={`gap-4 grid ${isXsScreen ? "grid-cols-1" : "grid-cols-12"} `}
       >
         <Box
-          className={`grid gap-4 col-span-3 ${
-            isXsScreen ? "col-span-12" : "col-span-3"
-          }`}
+          className={`grid gap-4 ${isXsScreen ? "col-span-12" : "col-span-3"}`}
         >
           <Card>
             <div className="flex items-center justify-start gap-5">
