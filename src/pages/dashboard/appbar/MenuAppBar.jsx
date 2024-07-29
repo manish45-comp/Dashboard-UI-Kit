@@ -4,13 +4,29 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Avatar, Box, Skeleton } from "@mui/joy";
-import { NotificationsNoneOutlined } from "@mui/icons-material";
+import {
+  Avatar,
+  Box,
+  Dropdown,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Skeleton,
+} from "@mui/joy";
+import {
+  CreditCard,
+  Logout,
+  NotificationsNoneOutlined,
+  Person,
+  Settings,
+} from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../redux/store/authSlice";
 import { removeUser } from "../../../redux/store/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function MenuAppBar({ toggleDrawer }) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const isLoading = useSelector((state) => state.user.loading);
@@ -51,21 +67,44 @@ export default function MenuAppBar({ toggleDrawer }) {
             </IconButton>
           </div>
           <div>
-            <IconButton
-              onClick={() => {
-                dispatch(logout());
-                dispatch(removeUser());
-              }}
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <Avatar sx={{ height: 48, width: 48 }} src={user?.image}>
-                <Skeleton loading={isLoading} />
-              </Avatar>
-            </IconButton>
+            <Dropdown>
+              <MenuButton
+                variant="soft"
+                color="primary"
+                sx={{ marginBlock: 1, aspectRatio: 1, borderRadius: 40 }}
+              >
+                <Avatar size="sm" src={user?.image}>
+                  <Skeleton loading={isLoading} />
+                </Avatar>
+              </MenuButton>
+              <Menu placement="bottom-end" color="primary" variant="soft">
+                <MenuItem onClick={() => navigate("/dashboard/settings")}>
+                  <Person />
+                  Profile
+                </MenuItem>
+                <MenuItem
+                  onClick={() => navigate("/dashboard/settings/security")}
+                >
+                  <Settings />
+                  Security
+                </MenuItem>
+                <MenuItem
+                  onClick={() => navigate("/dashboard/settings/billing")}
+                >
+                  <CreditCard />
+                  Billing
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    dispatch(logout());
+                    dispatch(removeUser());
+                  }}
+                >
+                  <Logout />
+                  Logout
+                </MenuItem>
+              </Menu>
+            </Dropdown>
           </div>
         </Toolbar>
       </AppBar>

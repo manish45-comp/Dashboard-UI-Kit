@@ -1,27 +1,36 @@
-import { Box, Divider, Typography } from "@mui/joy";
+import { Box, Typography } from "@mui/joy";
 import MUILink from "@mui/joy/Link";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { loginUser } from "../../redux/store/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { loadUserCredentials, rememberUserCredentials } from "../../utils/auth";
 import Logo from "../../components/icons/Logo";
 import SocialButtons from "../../components/icons/SocialButtons";
 import LoginForm from "../../components/LoginForm";
 import toast, { Toaster } from "react-hot-toast";
+import { Divider } from "@mui/material";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [remember, setRemember] = useState(false);
 
+  const isRegistered = useSelector((state) => state.auth.isRegistered);
+
+  useEffect(() => {
+    if (isRegistered) {
+      toast.success("Registration successful. Please log in.");
+    }
+  }, [isRegistered]);
+
   // react hook form's hook
   const {
     register,
     handleSubmit,
     setValue,
-    resetField,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -45,11 +54,9 @@ const Login = () => {
       const response = await dispatch(loginUser(credentials));
       if (response.error) {
         toast.error(response.payload || "Login failed");
-      } else {
-        resetField("username");
-        resetField("password");
-        navigate("/dashboard");
       }
+      reset();
+      navigate("/dashboard");
     } catch (error) {
       toast.error("An unexpected error occurred");
     }
@@ -71,7 +78,11 @@ const Login = () => {
           </div>
           <SocialButtons />
 
-          <Divider sx={{ marginTop: 5 }} variant="middle" />
+          <div className="flex gap-2 items-center justify-center mt-10">
+            <Divider className="flex-1" />
+            <Typography level="body-sm">or</Typography>
+            <Divider className="flex-1" />
+          </div>
 
           <LoginForm
             onSubmit={handleSubmit(onSubmit)}
@@ -94,8 +105,7 @@ const Login = () => {
       <Box sx={{ display: { xs: "none", lg: "block" } }} className="flex-1">
         2
       </Box>
-
-      <Toaster position="bottom-right" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
     </Box>
   );
 };

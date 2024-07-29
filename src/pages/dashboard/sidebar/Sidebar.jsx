@@ -302,7 +302,7 @@ const Sidebar = ({ toggleDrawer }) => {
                 horizontal: "right",
               }}
             >
-              <Avatar sx={{ height: 48, width: 48 }} src={user?.image}>
+              <Avatar src={user?.image}>
                 <Skeleton loading={isLoading} />
               </Avatar>
             </Badge>

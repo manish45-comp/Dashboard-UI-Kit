@@ -7,25 +7,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../redux/store/userSlice";
 
 import toast, { Toaster } from "react-hot-toast";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const Dashboard = () => {
+  const theme = useTheme();
+  const isXsScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  const toggleDrawer = (inOpen) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
+  const toggleDrawer = (inOpen) => () => {
     setOpen(inOpen);
   };
 
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
+
   useEffect(() => {
     if (isAuthenticated) {
       toast.success("Login successfully", { duration: 2000 });
@@ -37,7 +35,11 @@ const Dashboard = () => {
       sx={{ padding: { xs: 0, lg: 0 } }}
       className="w-screen h-screen bg-black flex overflow-hidden"
     >
-      <Drawer variant="plain" open={open} onClose={toggleDrawer(false)}>
+      <Drawer
+        variant="plain"
+        open={isXsScreen ? open : false}
+        onClose={toggleDrawer(false)}
+      >
         <Box className="overflow-hidden bg-black" sx={{ padding: 3 }}>
           <Sidebar toggleDrawer={toggleDrawer} />
           <ModalClose />
@@ -70,7 +72,7 @@ const Dashboard = () => {
         <Outlet />
       </Box>
 
-      <Toaster position="bottom-right" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
     </Box>
   );
 };

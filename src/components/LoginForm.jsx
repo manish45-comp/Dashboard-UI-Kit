@@ -1,9 +1,10 @@
-import { InfoOutlined } from "@mui/icons-material";
+import { InfoOutlined, RemoveRedEyeOutlined } from "@mui/icons-material";
 import {
   Button,
   Checkbox,
   FormControl,
   FormHelperText,
+  IconButton,
   Input,
   Typography,
 } from "@mui/joy";
@@ -50,6 +51,16 @@ const LoginForm = ({
             placeholder="Password"
             error={errors.password && true}
             type="password"
+            endDecorator={
+              <IconButton
+                size="sm"
+                variant="soft"
+                color="primary"
+                sx={{ aspectRatio: 1, borderRadius: 999999 }}
+              >
+                <RemoveRedEyeOutlined />
+              </IconButton>
+            }
           ></Input>
           {errors.password && (
             <FormHelperText className="flex items-center justify-start">
