@@ -7,7 +7,7 @@ const initialState = {
   refresh: localStorage.getItem("refresh"),
   loading: false,
   error: null,
-  isRegistered: false,
+  notifications: null,
 };
 
 export const registerUser = createAsyncThunk(
@@ -80,11 +80,14 @@ export const authSlice = createSlice({
       localStorage.removeItem("token");
       localStorage.removeItem("refresh");
       state.isAuthenticated = false;
-      state.isRegistered = false;
       state.token = null;
       state.refresh = null;
       state.loading = false;
       state.error = null;
+      state.notifications = "Logout Successful";
+    },
+    clearNotifications: (state) => {
+      state.notifications = null;
     },
   },
   extraReducers: (builder) => {
@@ -99,6 +102,7 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.refresh = action.payload.refreshToken;
         state.error = null;
+        state.notifications = "Login Successful";
 
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("token", action.payload.token);
@@ -111,21 +115,19 @@ export const authSlice = createSlice({
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.isRegistered = false;
       })
       .addCase(registerUser.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
-        state.isRegistered = true;
+        state.notifications = "Registration Successful";
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.isRegistered = false;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, clearNotifications } = authSlice.actions;
 
 export default authSlice.reducer;

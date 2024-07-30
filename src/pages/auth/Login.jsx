@@ -17,13 +17,13 @@ const Login = () => {
   const navigate = useNavigate();
   const [remember, setRemember] = useState(false);
 
-  const isRegistered = useSelector((state) => state.auth.isRegistered);
+  const notifications = useSelector((state) => state.auth.notifications);
 
   useEffect(() => {
-    if (isRegistered) {
-      toast.success("Registration successful. Please log in.");
+    if (notifications) {
+      toast.success(notifications, 2000);
     }
-  }, [isRegistered]);
+  }, [notifications]);
 
   // react hook form's hook
   const {

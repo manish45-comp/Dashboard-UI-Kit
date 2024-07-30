@@ -8,13 +8,14 @@ import { getUser } from "../../redux/store/userSlice";
 
 import toast, { Toaster } from "react-hot-toast";
 import { useMediaQuery, useTheme } from "@mui/material";
+import { clearNotifications } from "../../redux/store/authSlice";
 
 const Dashboard = () => {
   const theme = useTheme();
   const isXsScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const notifications = useSelector((state) => state.auth.notifications);
 
   const toggleDrawer = (inOpen) => () => {
     setOpen(inOpen);
@@ -25,10 +26,11 @@ const Dashboard = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      toast.success("Login successfully", { duration: 2000 });
+    if (notifications) {
+      toast.success(notifications, { duration: 2000 });
+      setTimeout(() => dispatch(clearNotifications()), 2000);
     }
-  }, [isAuthenticated]);
+  }, [notifications, dispatch]);
 
   return (
     <Box
