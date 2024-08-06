@@ -1,6 +1,9 @@
 import { Box, Button, Input, Typography } from "@mui/joy";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{ padding: { xs: 0, lg: 3 } }}
@@ -45,7 +48,12 @@ const ResetPassword = () => {
               <Button color="primary" fullWidth>
                 Reset Password
               </Button>
-              <Button variant="outlined" color="primary" fullWidth>
+              <Button
+                onClick={() => navigate("/")}
+                variant="outlined"
+                color="primary"
+                fullWidth
+              >
                 Back to Login
               </Button>
             </div>

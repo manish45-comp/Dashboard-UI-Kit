@@ -1,4 +1,4 @@
-import { InfoOutlined, RemoveRedEyeOutlined } from "@mui/icons-material";
+import { InfoOutlined } from "@mui/icons-material";
 import {
   Button,
   Checkbox,
@@ -9,8 +9,10 @@ import {
   Typography,
 } from "@mui/joy";
 import MUILink from "@mui/material/Link";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import EyeIcon from "./icons/EyeIcon";
 
 /* eslint-disable react/prop-types */
 const LoginForm = ({
@@ -21,24 +23,24 @@ const LoginForm = ({
   register,
 }) => {
   const isLoading = useSelector((state) => state.auth.loading);
-
+  const [show, setShow] = useState(false);
   return (
     <form onSubmit={onSubmit}>
       <div className="mt-10 grid gap-6">
-        <FormControl error={errors.username && true}>
+        <FormControl error={errors.email && true}>
           <Input
-            name="username"
-            {...register("username", {
-              required: "Username is required",
+            name="email"
+            {...register("email", {
+              required: "Email is required",
             })}
             placeholder="Email"
-            error={errors.username && true}
+            error={errors.email && true}
             type="text"
           ></Input>
-          {errors.username && (
+          {errors.email && (
             <FormHelperText className="flex items-center justify-start">
               <InfoOutlined />
-              {errors.username ? errors.username.message : ""}
+              {errors.email ? errors.email.message : ""}
             </FormHelperText>
           )}
         </FormControl>
@@ -50,15 +52,16 @@ const LoginForm = ({
             })}
             placeholder="Password"
             error={errors.password && true}
-            type="password"
+            type={show ? "text" : "password"}
             endDecorator={
               <IconButton
+                onClick={() => setShow(!show)}
                 size="sm"
                 variant="soft"
                 color="primary"
                 sx={{ aspectRatio: 1, borderRadius: 999999 }}
               >
-                <RemoveRedEyeOutlined />
+                <EyeIcon className="size-5" show={show} />
               </IconButton>
             }
           ></Input>

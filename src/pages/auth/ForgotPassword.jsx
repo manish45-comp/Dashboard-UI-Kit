@@ -1,6 +1,8 @@
 import { Box, Button, Input, Typography } from "@mui/joy";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{ padding: { xs: 0, lg: 3 } }}
@@ -40,10 +42,19 @@ const ForgotPassword = () => {
             </div>
 
             <div className="mt-5 grid gap-3">
-              <Button color="primary" fullWidth>
+              <Button
+                onClick={() => navigate("/reset-password")}
+                color="primary"
+                fullWidth
+              >
                 Send OTP
               </Button>
-              <Button variant="outlined" color="primary" fullWidth>
+              <Button
+                onClick={() => navigate("/")}
+                variant="outlined"
+                color="primary"
+                fullWidth
+              >
                 Back to Login
               </Button>
             </div>

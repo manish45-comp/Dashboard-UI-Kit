@@ -15,7 +15,7 @@ export const registerUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "https://dummyjson.com/users/add",
+        "https://dummyjson.com/auth/login/register/",
         data,
         {
           headers: {
@@ -44,10 +44,12 @@ export const loginUser = createAsyncThunk(
   "api/login",
   async (credentials, { rejectWithValue }) => {
     try {
-      const { username, password, expiresInMins = 1 } = credentials;
       const response = await axios.post(
         "https://dummyjson.com/auth/login",
-        { username, password, expiresInMins },
+        {
+          username: credentials.email,
+          password: credentials.password,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -70,6 +72,36 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+// export const updateUser = createAsyncThunk(
+//   "api/update",
+//   async (id, data, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.put(
+//         `https://dummyjson.com/users/${id}`,
+//         data,
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+//       return response.data;
+//     } catch (error) {
+//       if (error.response) {
+//         return rejectWithValue(
+//           error.response.data.message || "Failed to Update"
+//         );
+//       } else if (error.request) {
+//         return rejectWithValue(
+//           "No Response From Server, Please try again later."
+//         );
+//       } else {
+//         return rejectWithValue(error.message);
+//       }
+//     }
+//   }
+// );
 
 export const authSlice = createSlice({
   name: "auth",
@@ -97,13 +129,13 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
+        console.log(action);
         state.loading = false;
         state.isAuthenticated = true;
         state.token = action.payload.token;
         state.refresh = action.payload.refreshToken;
         state.error = null;
         state.notifications = "Login Successful";
-
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("token", action.payload.token);
         localStorage.setItem("refresh", action.payload.refreshToken);
@@ -125,6 +157,19 @@ export const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+    // .addCase(updateUser.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // })
+    // .addCase(updateUser.fulfilled, (state) => {
+    //   state.loading = false;
+    //   state.error = null;
+    //   state.notifications = "Updated Successfully";
+    // })
+    // .addCase(updateUser.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action.payload;
+    // });
   },
 });
 

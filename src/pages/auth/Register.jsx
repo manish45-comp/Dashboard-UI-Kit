@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import MUILink from "@mui/joy/Link";
 import SocialButtons from "../../components/icons/SocialButtons";
-
 import { useForm } from "react-hook-form";
 import RegistrationForm from "../../components/RegistrationForm";
 import { Divider } from "@mui/material";
@@ -12,7 +11,7 @@ import Logo from "../../components/icons/Logo";
 import { registerUser } from "../../redux/store/authSlice";
 import { useDispatch } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
+import placeImage from "../../assets/form-placeholder.jpg";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -43,7 +42,7 @@ const Register = () => {
   return (
     <Box
       sx={{ padding: { xs: 0, lg: 3 } }}
-      className="flex h-screen w-screen bg-black"
+      className="flex h-auto min-h-screen w-screen bg-white"
     >
       <Box
         className="flex-1 h-auto bg-white flex items-center justify-center hideScrollbar"
@@ -53,7 +52,7 @@ const Register = () => {
         }}
       >
         <Box
-          sx={{ marginTop: 20, marginBottom: 10 }}
+          sx={{ marginTop: 5, marginBottom: 5 }}
           className="p-2 w-[400px] grid gap-5"
         >
           <Logo />
@@ -81,8 +80,19 @@ const Register = () => {
           </div>
         </Box>
       </Box>
-      <Box sx={{ display: { xs: "none", lg: "block" } }} className="flex-1">
-        2
+      <Box
+        sx={{
+          overflow: "hidden",
+          borderRadius: 10,
+          display: { xs: "none", lg: "block" },
+        }}
+        className="flex-1"
+      >
+        <img
+          className="h-full w-full"
+          style={{ objectFit: "cover" }}
+          src={placeImage}
+        />
       </Box>
       <Toaster position="bottom-right" reverseOrder={false} />
     </Box>

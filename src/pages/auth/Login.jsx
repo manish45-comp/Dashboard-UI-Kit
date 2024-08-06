@@ -11,6 +11,7 @@ import SocialButtons from "../../components/icons/SocialButtons";
 import LoginForm from "../../components/LoginForm";
 import toast, { Toaster } from "react-hot-toast";
 import { Divider } from "@mui/material";
+import placeImage from "../../assets/form-placeholder.jpg";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const Login = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -49,6 +50,7 @@ const Login = () => {
   };
 
   const onSubmit = async (credentials) => {
+    console.log(credentials);
     rememberUserCredentials(remember, credentials);
     try {
       const response = await dispatch(loginUser(credentials));
@@ -65,11 +67,11 @@ const Login = () => {
   return (
     <Box
       sx={{ padding: { xs: 0, lg: 3 } }}
-      className="flex h-screen w-screen bg-black"
+      className="flex h-screen w-screen bg-white"
     >
       <Box
         sx={{ overflow: "hidden", borderRadius: { xs: 5, lg: 15 } }}
-        className="flex-1 border bg-white flex items-center justify-center"
+        className="flex-1 bg-white flex items-center justify-center"
       >
         <Box className="w-[400px] p-2">
           <Logo />
@@ -102,8 +104,19 @@ const Login = () => {
           </div>
         </Box>
       </Box>
-      <Box sx={{ display: { xs: "none", lg: "block" } }} className="flex-1">
-        2
+      <Box
+        sx={{
+          overflow: "hidden",
+          borderRadius: 10,
+          display: { xs: "none", lg: "block" },
+        }}
+        className="flex-1"
+      >
+        <img
+          className="h-full w-full"
+          style={{ objectFit: "cover" }}
+          src={placeImage}
+        />
       </Box>
       <Toaster position="top-right" reverseOrder={false} />
     </Box>
