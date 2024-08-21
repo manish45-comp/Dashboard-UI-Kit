@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import EyeIcon from "./icons/EyeIcon";
+import { emailValidation, passwordValidation } from "../utils/Validations";
 
 /* eslint-disable react/prop-types */
 const LoginForm = ({
@@ -30,9 +31,7 @@ const LoginForm = ({
         <FormControl error={errors.email && true}>
           <Input
             name="email"
-            {...register("email", {
-              required: "Email is required",
-            })}
+            {...register("email", emailValidation)}
             placeholder="Email"
             error={errors.email && true}
             type="text"
@@ -47,9 +46,7 @@ const LoginForm = ({
         <FormControl error={errors.password && true}>
           <Input
             name="password"
-            {...register("password", {
-              required: "Password is required",
-            })}
+            {...register("password", passwordValidation)}
             placeholder="Password"
             error={errors.password && true}
             type={show ? "text" : "password"}
@@ -57,11 +54,9 @@ const LoginForm = ({
               <IconButton
                 onClick={() => setShow(!show)}
                 size="sm"
-                variant="soft"
-                color="primary"
                 sx={{ aspectRatio: 1, borderRadius: 999999 }}
               >
-                <EyeIcon className="size-5" show={show} />
+                <EyeIcon className="size-4" show={show} />
               </IconButton>
             }
           ></Input>

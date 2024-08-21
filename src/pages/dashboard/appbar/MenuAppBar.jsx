@@ -21,9 +21,10 @@ import {
   Settings,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../../redux/store/authSlice";
+
 import { removeUser } from "../../../redux/store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../../../redux/store/authSlice";
 
 export default function MenuAppBar({ toggleDrawer }) {
   const navigate = useNavigate();
@@ -96,7 +97,7 @@ export default function MenuAppBar({ toggleDrawer }) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    dispatch(logout());
+                    dispatch(logoutUser());
                     dispatch(removeUser());
                   }}
                 >

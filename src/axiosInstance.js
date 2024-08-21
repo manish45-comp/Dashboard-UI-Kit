@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getAccessToken, getRefreshToken, setAccessToken } from "./utils/auth";
 
-const axiosInstance = axios.create({
-  baseURL: "https://dummyjson.com/",
+export const axiosInstance = axios.create({
+  baseURL: "http://192.168.1.8:8000/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -18,9 +18,12 @@ axiosInstance.interceptors.request.use((config) => {
 
 const refreshToken = async () => {
   try {
-    const response = await axios.post("https://dummyjson.com/auth/refresh", {
-      refreshToken: getRefreshToken(),
-    });
+    const response = await axios.post(
+      "http://192.168.1.8:8000/api/token_refresh/",
+      {
+        refresh: getRefreshToken(),
+      }
+    );
     const newToken = response.data.token;
     setAccessToken(newToken);
     return newToken;

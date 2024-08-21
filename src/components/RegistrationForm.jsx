@@ -18,8 +18,16 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import EyeIcon from "./icons/EyeIcon";
 import InputFileUpload from "./InputFileUpload";
+import {
+  confirmPasswordValidation,
+  emailValidation,
+  passwordValidation,
+} from "../utils/Validations";
 
-const RegistrationForm = ({ onSubmit, errors, register }) => {
+const RegistrationForm = ({ onSubmit, formState, register, watch }) => {
+  const { errors, isValid } = formState;
+
+  const password = watch("password");
   const isLoading = useSelector((state) => state.auth.loading);
 
   const [show, setShow] = useState({
@@ -39,7 +47,7 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
             <Input
               name="first_name"
               {...register("first_name", {
-                required: "firstName is required",
+                required: "first Name is required",
               })}
               placeholder="First Name"
               error={errors.first_name && true}
@@ -47,7 +55,7 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
             ></Input>
             {errors.first_name && (
               <FormHelperText className="flex items-center justify-start">
-                <InfoOutlined />
+                <InfoOutlined sx={{ fontSize: "15px" }} />
                 {errors.first_name ? errors.first_name.message : ""}
               </FormHelperText>
             )}
@@ -66,7 +74,7 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
             ></Input>
             {errors.last_name && (
               <FormHelperText className="flex items-center justify-start">
-                <InfoOutlined />
+                <InfoOutlined sx={{ fontSize: "15px" }} />
                 {errors.last_name ? errors.last_name.message : ""}
               </FormHelperText>
             )}
@@ -84,12 +92,12 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
           placeholder="Gender"
           error={errors.gender && true}
         >
-          <Option value={1}>Male</Option>
-          <Option value={2}>Female</Option>
+          <Option value={"male"}>Male</Option>
+          <Option value={"female"}>Female</Option>
         </Select>
         {errors.gender && (
           <FormHelperText className="flex items-center justify-start">
-            <InfoOutlined />
+            <InfoOutlined sx={{ fontSize: "15px" }} />
             {errors.gender ? errors.gender.message : ""}
           </FormHelperText>
         )}
@@ -98,35 +106,33 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
       <FormControl error={errors.email && true}>
         <Input
           name="email"
-          {...register("email", {
-            required: "Email is required",
-          })}
+          {...register("email", emailValidation)}
           placeholder="Email"
           error={errors.email && true}
           type="text"
         ></Input>
         {errors.email && (
           <FormHelperText className="flex items-center justify-start">
-            <InfoOutlined />
+            <InfoOutlined sx={{ fontSize: "15px" }} />
             {errors.email ? errors.email.message : ""}
           </FormHelperText>
         )}
       </FormControl>
 
-      <FormControl error={errors.mobileno && true}>
+      <FormControl error={errors.mobile_number && true}>
         <Input
-          name="mobileno"
-          {...register("mobileno", {
+          name="mobile_number"
+          {...register("mobile_number", {
             required: "Mobile Number is required",
           })}
           placeholder="Mobile Number"
-          error={errors.mobileno && true}
+          error={errors.mobile_number && true}
           type="text"
         ></Input>
-        {errors.mobileno && (
+        {errors.mobile_number && (
           <FormHelperText className="flex items-center justify-start">
-            <InfoOutlined />
-            {errors.mobileno ? errors.mobileno.message : ""}
+            <InfoOutlined sx={{ fontSize: "15px" }} />
+            {errors.mobile_number ? errors.mobile_number.message : ""}
           </FormHelperText>
         )}
       </FormControl>
@@ -144,7 +150,7 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
         ></Textarea>
         {errors.address && (
           <FormHelperText className="flex items-center justify-start">
-            <InfoOutlined />
+            <InfoOutlined sx={{ fontSize: "15px" }} />
             {errors.address ? errors.address.message : ""}
           </FormHelperText>
         )}
@@ -155,27 +161,23 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
       <FormControl error={errors.password && true}>
         <Input
           name="password"
-          {...register("password", {
-            required: "Password is required",
-          })}
+          {...register("password", passwordValidation)}
           placeholder="Password"
           error={errors.password && true}
           type={show.showPassword ? "text" : "password"}
           endDecorator={
             <IconButton
               size="sm"
-              variant="soft"
-              color="primary"
               sx={{ aspectRatio: 1, borderRadius: 999999 }}
               onClick={() => togglePasswordVisibility("showPassword")}
             >
-              <EyeIcon show={show.showPassword} className="size-5" />
+              <EyeIcon show={show.showPassword} className="size-4" />
             </IconButton>
           }
         ></Input>
         {errors.password && (
           <FormHelperText className="flex items-center justify-start">
-            <InfoOutlined />
+            <InfoOutlined sx={{ fontSize: "15px" }} />
             {errors.password ? errors.password.message : ""}
           </FormHelperText>
         )}
@@ -183,34 +185,29 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
       <FormControl error={errors.confirm_password && true}>
         <Input
           name="confirm_password"
-          {...register("confirm_password", {
-            required: "Confirm Password is required",
-          })}
+          {...register("confirm_password", confirmPasswordValidation(password))}
           placeholder="Confirm Password"
           error={errors.confirm_password && true}
           type={show.showConfirmPassword ? "text" : "password"}
           endDecorator={
             <IconButton
               size="sm"
-              variant="soft"
-              color="primary"
               sx={{ aspectRatio: 1, borderRadius: 999999 }}
               onClick={() => togglePasswordVisibility("showConfirmPassword")}
             >
-              <EyeIcon show={show.showConfirmPassword} className="size-5" />
+              <EyeIcon show={show.showConfirmPassword} className="size-4" />
             </IconButton>
           }
         ></Input>
         {errors.confirm_password && (
           <FormHelperText className="flex items-center justify-start">
-            <InfoOutlined />
+            <InfoOutlined sx={{ fontSize: "15px" }} />
             {errors.confirm_password ? errors.confirm_password.message : ""}
           </FormHelperText>
         )}
       </FormControl>
 
       <FormControl error={errors.termsAndConditions && true}>
-        {" "}
         <div className="flex items-center justify-start gap-1">
           <Checkbox
             name="termsAndConditions"
@@ -227,13 +224,19 @@ const RegistrationForm = ({ onSubmit, errors, register }) => {
         </div>
         {errors.termsAndConditions && (
           <FormHelperText className="flex items-center justify-start">
-            <InfoOutlined />
+            <InfoOutlined sx={{ fontSize: "15px" }} />
             {errors.termsAndConditions ? errors.termsAndConditions.message : ""}
           </FormHelperText>
         )}
       </FormControl>
 
-      <Button loading={isLoading} type="submit" color="primary" fullWidth>
+      <Button
+        loading={isLoading}
+        type="submit"
+        color="primary"
+        fullWidth
+        disabled={!isValid}
+      >
         Register Now
       </Button>
     </form>

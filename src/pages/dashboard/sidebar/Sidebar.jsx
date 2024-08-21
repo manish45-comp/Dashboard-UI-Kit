@@ -302,7 +302,7 @@ const Sidebar = ({ toggleDrawer }) => {
                 horizontal: "right",
               }}
             >
-              <Avatar src={user?.image}>
+              <Avatar src={user?.profile_image}>
                 <Skeleton loading={isLoading} />
               </Avatar>
             </Badge>
@@ -321,7 +321,7 @@ const Sidebar = ({ toggleDrawer }) => {
                   }}
                   level="title-sm"
                 >
-                  {user?.firstName + " " + user?.lastName}
+                  {user?.first_name + " " + user?.last_name}
                 </Typography>
               )}
               {isLoading ? (
@@ -338,7 +338,7 @@ const Sidebar = ({ toggleDrawer }) => {
                   }}
                   level="body-sm"
                 >
-                  {user?.username}
+                  {user?.email}
                 </Typography>
               )}
             </div>
@@ -350,7 +350,7 @@ const Sidebar = ({ toggleDrawer }) => {
                 variant="soft"
                 color="success"
               >
-                {user?.role}
+                {user?.first_name}
               </Chip>
             )}
           </div>

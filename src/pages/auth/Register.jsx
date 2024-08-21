@@ -18,12 +18,8 @@ const Register = () => {
   const navigate = useNavigate();
 
   // react hook form's hook
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset, watch, formState } = useForm();
+  // const password = watch("password");
 
   const onSubmit = async (data) => {
     const { termsAndConditions, ...filtered } = data;
@@ -68,8 +64,9 @@ const Register = () => {
 
           <RegistrationForm
             onSubmit={handleSubmit(onSubmit)}
-            errors={errors}
+            formState={formState}
             register={register}
+            watch={watch}
           />
 
           <div className=" flex gap-1 items-center justify-center">

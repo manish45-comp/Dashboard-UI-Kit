@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.user);
-
   return (
     <>
       <Box className="flex items-center justify-start gap-3 mt-5">
@@ -30,7 +29,7 @@ const Profile = () => {
           }}
           className="profileUpload"
         >
-          <img src={user?.image} />
+          <img src={user?.profile_image} />
           <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center uploadIcon">
             <CloudUpload sx={{ color: "#f7f7f7" }} />
           </div>
@@ -59,11 +58,11 @@ const Profile = () => {
         >
           <FormControl>
             <FormLabel>First Name</FormLabel>
-            <Input placeholder="First Name" value={user?.firstName}></Input>
+            <Input placeholder="First Name" value={user?.first_name}></Input>
           </FormControl>
           <FormControl>
             <FormLabel>Last Name</FormLabel>
-            <Input placeholder="Last Name" value={user?.lastName}></Input>
+            <Input placeholder="Last Name" value={user?.last_name}></Input>
           </FormControl>
           <FormControl className="flex-1">
             <FormLabel>Email Address</FormLabel>
@@ -131,7 +130,7 @@ const Profile = () => {
             <Textarea
               minRows={2}
               placeholder="Address"
-              value={user?.address?.address}
+              value={user?.address}
             ></Textarea>
           </FormControl>
         </Box>
